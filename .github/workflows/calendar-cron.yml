@@ -2,10 +2,10 @@ name: Economic Calendar Cron
 
 on:
   schedule:
-    # GitHub minimum is 5 min – we loop internally
-    - cron: "25 8 * * *"
-    - cron: "30 6 * * *"   # 12:00 PM IST
-    - cron: "0 13 * * *"   # 6:30 PM IST
+    - cron: "30 3 * * *"    # 9:00 AM IST
+    - cron: "0 8 * * *"     # 1:30 PM IST
+    - cron: "0 12 * * *"    # 5:30 PM IST
+    - cron: "0 15 * * *"    # 8:30 PM IST
   workflow_dispatch:
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install system deps
+      - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -37,14 +37,12 @@ jobs:
             libpangocairo-1.0-0 \
             libxkbcommon0
 
-      - name: Install Python deps
+      - name: Install Python dependencies
         run: |
           pip install -r requirements.txt
           playwright install chromium
 
-      - name: Run scraper every minute (x2)
+      - name: Run scraper (single execution)
         run: |
-          echo "⏱ Run #$i"
-            python scraper.py
-            sleep 60
-          done
+          echo "⏱ Running scraper once"
+          python scraper.py
