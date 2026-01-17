@@ -3,6 +3,7 @@ name: Economic Calendar Cron
 on:
   schedule:
     # GitHub minimum is 5 min – we loop internally
+    - cron: "15 8 * * *"
     - cron: "30 6 * * *"   # 12:00 PM IST
     - cron: "0 13 * * *"   # 6:30 PM IST
   workflow_dispatch:
