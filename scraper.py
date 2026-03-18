@@ -4,6 +4,7 @@ import requests
 from datetime import datetime, timedelta
 from playwright.async_api import async_playwright
 
+
 FF_CAL_URL = "https://www.forexfactory.com/calendar"
 POST_ENDPOINT = "https://saireddy.site/insert_event.php"
 
