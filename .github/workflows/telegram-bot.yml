@@ -1,26 +1,38 @@
-name: Telegram Bot Runner
+name: Instant Telegram Bot Executor
 
 on:
-  schedule:
-    - cron: '* * * * *' # Runs automatically every 5 minutes
-  workflow_dispatch: # Allows you to click "Run workflow" manually to test it
+  workflow_dispatch:
+    inputs:
+      chat_id:
+        description: 'The Telegram Chat ID to reply to'
+        required: true
+      command:
+        description: 'The command sent from Telegram'
+        required: true
 
 jobs:
-  run-bot-script:
+  execute-command:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Process the Telegram Command
+        id: task
+        run: |
+          echo "Received command instantly: ${{ github.event.inputs.command }}"
+          
+          # --- YOUR INSTANT TASK GOES HERE ---
+          # You can run your own scripts, trigger builds, or interact with databases here.
+          # For now, we will just echo a success message back.
+          
+          echo "result=Successfully received and executed: '${{ github.event.inputs.command }}'" >> $GITHUB_OUTPUT
+
+      - name: Send Instant Reply to Telegram
+        uses: appleboy/telegram-action@master
         with:
-          python-version: '3.10'
-
-      - name: Install Dependencies
-        run: pip install requests
-
-      - name: Run Telegram Bot Task
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-        run: python bot_task.py
+          to: ${{ github.event.inputs.chat_id }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ⚡ Instant Execution Complete!
+            Status: ${{ steps.task.outputs.result }}
