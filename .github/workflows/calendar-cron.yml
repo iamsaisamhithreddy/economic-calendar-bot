@@ -1,5 +1,6 @@
 name: Economic Calendar Cron
 
+
 on:
   schedule:
     - cron: "30 3 * * *"    # 9:00 AM IST
