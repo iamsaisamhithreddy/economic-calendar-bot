@@ -1,6 +1,5 @@
 name: Economic Calendar Cron
 
-
 on:
   schedule:
     # GitHub minimum is 5 min – we loop internally
