@@ -25,7 +25,6 @@ USER_AGENT = (
 
 # =========================
 # Fetch JS state via browser
-# =========================
 async def fetch_states():
     print("🚀 Launching browser (Cloudflare-safe)...")
 
